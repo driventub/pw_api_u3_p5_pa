@@ -1,10 +1,12 @@
 package uce.edu.pw_api_u3_p5_pa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import uce.edu.pw_api_u3_p5_pa.repository.IEstudianteRepo;
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 
+@Service
 public class EstudianteServiceImpl implements IEstudianteService{
 
     @Autowired
