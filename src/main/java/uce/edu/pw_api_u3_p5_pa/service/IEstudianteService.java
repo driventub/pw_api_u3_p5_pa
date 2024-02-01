@@ -1,5 +1,7 @@
 package uce.edu.pw_api_u3_p5_pa.service;
 
+import java.util.List;
+
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 
 public interface IEstudianteService {
@@ -12,4 +14,6 @@ public interface IEstudianteService {
     public void eliminar(Integer id);
 
     public Estudiante seleccionar(Integer id);
+    public List<Estudiante> seleccionarTodos(String genero);
+
 }

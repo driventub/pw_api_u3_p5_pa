@@ -1,10 +1,13 @@
 package uce.edu.pw_api_u3_p5_pa.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 
@@ -28,11 +31,12 @@ public class EstudianteRepoImpl implements IEstudianteRepo {
 
     @Override
     public void actualizarParcial(String apellido, String nombre, Integer id) {
-        
-        Query query = this.em.createQuery("UPDATE Estudiante e SET e.apellido = :apellido , e.nombre = :nombre WHERE e.id = :id")
-        .setParameter("id", id)
-        .setParameter("apellido", apellido)
-        .setParameter("nombre", nombre);
+
+        Query query = this.em
+                .createQuery("UPDATE Estudiante e SET e.apellido = :apellido , e.nombre = :nombre WHERE e.id = :id")
+                .setParameter("id", id)
+                .setParameter("apellido", apellido)
+                .setParameter("nombre", nombre);
         query.executeUpdate();
     }
 
@@ -45,6 +49,15 @@ public class EstudianteRepoImpl implements IEstudianteRepo {
     @Override
     public Estudiante seleccionar(Integer id) {
         return this.em.find(Estudiante.class, id);
+    }
+
+    @Override
+    public List<Estudiante> seleccionarTodos(String genero) {
+
+        TypedQuery<Estudiante> query = this.em
+                .createQuery("SELECT a FROM Estudiante a WHERE a.genero = :genero", Estudiante.class)
+                .setParameter("genero", genero);
+        return query.getResultList();
     }
 
 }

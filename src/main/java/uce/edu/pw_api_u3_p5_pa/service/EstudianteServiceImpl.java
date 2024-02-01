@@ -1,5 +1,7 @@
 package uce.edu.pw_api_u3_p5_pa.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,11 @@ public class EstudianteServiceImpl implements IEstudianteService{
     public Estudiante seleccionar(Integer id) {
         
         return this.repo.seleccionar(id);
+    }
+
+    @Override
+    public List<Estudiante> seleccionarTodos(String genero) {
+        return this.repo.seleccionarTodos( genero);
     }
     
 }
