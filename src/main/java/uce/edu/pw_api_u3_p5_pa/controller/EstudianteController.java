@@ -24,8 +24,8 @@ public class EstudianteController {
     private IEstudianteService service;
 
     @GetMapping("{id}")
-    public Estudiante buscar(@PathVariable Integer id) {
-        return this.service.seleccionar(id);
+    public Estudiante buscar() {
+        return this.service.seleccionar(1);
     }
 
     @PostMapping()
@@ -41,13 +41,13 @@ public class EstudianteController {
     }
 
     @PatchMapping()
-    public void actualizarParcial(String apellido, String nombre,Integer id){
-        this.service.actualizarParcial(apellido, nombre, id);
+    public void actualizarParcial(@RequestBody Estudiante estu){
+        this.service.actualizarParcial(estu.getApellido(), estu.getNombre(),estu.getId());
     }
 
     @DeleteMapping("{id}")
-    public void eliminar(@PathVariable Integer id){
-        this.service.eliminar(id);
+    public void eliminar(){
+        this.service.eliminar(2);
     }
 
 }
