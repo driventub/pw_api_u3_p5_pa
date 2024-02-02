@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 import uce.edu.pw_api_u3_p5_pa.service.IEstudianteService;
 
-
-
 @RestController
 @RequestMapping("/estudiantes")
 @Slf4j
@@ -28,8 +26,16 @@ public class EstudianteController {
     @Autowired
     private IEstudianteService service;
 
-    @GetMapping("{id}/{nuevo}")
-    public Estudiante buscar(@PathVariable Integer id, @PathVariable String nuevo) {
+    /**
+     * Se va a consultar con este formato
+     * http://localhost:8080/API/v1.0/Matricula/{id}/{nuevo}
+     * 
+     * @param id:    va a ser el id del estudiante
+     * @param nuevo: un valor de prueba
+     * @return
+     */
+    @GetMapping(path = "{id}")
+    public Estudiante consultarPorId(@PathVariable Integer id, @PathVariable(required = false) String nuevo) {
         log.info(nuevo);
         return this.service.seleccionar(id);
     }
@@ -41,25 +47,34 @@ public class EstudianteController {
 
     }
 
-    @PutMapping()
-    public void actualizar( @RequestBody Estudiante estu) {
+    @PutMapping(path = "{id}")
+    public void actualizar(@RequestBody Estudiante estu, @PathVariable Integer id) {
+        estu.setId(id);
         this.service.actualizar(estu);
     }
 
-    @PatchMapping()
-    public void actualizarParcial(@RequestBody Estudiante estu){
-        this.service.actualizarParcial(estu.getApellido(), estu.getNombre(),estu.getId());
+    @PatchMapping("{id}")
+    public void actualizarParcial(@RequestBody Estudiante estu, @PathVariable Integer id) {
+        estu.setId(id);
+        this.service.actualizarParcial(estu.getApellido(), estu.getNombre(), estu.getId());
     }
 
-    @DeleteMapping("{id}")
-    public void eliminar(@PathVariable Integer id){
+    @DeleteMapping(path = "{id}")
+    public void eliminar(@PathVariable Integer id) {
         this.service.eliminar(id);
     }
 
+    /**
+     * Por ejemplo aqui no se pone nada en el path, dado que no pide argumentos
+     * con @PathVariable
+     * 
+     * @param genero
+     * @return
+     */
     @GetMapping()
-    public List<Estudiante> consultarTodos(@RequestParam String genero, @RequestParam String algo) {
-        log.warn(algo);
+    public List<Estudiante> consultarTodos(@RequestParam(required = false, defaultValue = "M") String genero) {
+
         return this.service.seleccionarTodos(genero);
     }
-    
+
 }
