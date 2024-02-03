@@ -26,17 +26,24 @@ public class ProfesorController {
     @Autowired
     private IProfesorService service;
 
-    @GetMapping()
-    public Profesor consultarPorId(@RequestParam Integer id) {
+    @GetMapping(path = "{id}")
+    public Profesor consultarPorId(@PathVariable Integer id) {
         return this.service.buscarPorId(id);
     }
 
-    @GetMapping("/contrataciones")
+    
+    @GetMapping()
     public List<Profesor> consultarPorContrataciones(@RequestParam LocalDateTime fecha) {
         return this.service.buscarContrataciones(fecha);
     }
 
-    @GetMapping("/salarios/{valor}")
+    /**
+     * Tuve que agregar una parte de /salarios dado que tendria conflicot con el 
+     * metodo consultarPorContrataciones
+     * @param valor
+     * @return
+     */
+    @GetMapping(path = "/salarios/{valor}")
     public Long contarSalarios(@PathVariable BigDecimal valor) {
         return this.service.contarSalario(valor);
     }
@@ -57,7 +64,7 @@ public class ProfesorController {
         this.service.actualizarSalario(id, salario);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(path = "{id}")
     public void eliminar(@PathVariable Integer id) {
         this.service.eliminar(id);
     }
