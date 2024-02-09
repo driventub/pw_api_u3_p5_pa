@@ -19,8 +19,9 @@ public class MateriaRepoImpl implements IMateriaRepo {
 
     @Override
     public List<Materia> seleccionarPorIdEstudiante(Integer id) {
+        
         TypedQuery<Materia> myQuery = this.em
-                .createQuery("SELECT m FROM Materia m WHERE m.estudiante = :id", Materia.class)
+                .createQuery("SELECT m FROM Materia m WHERE m.estudiante.id = :id", Materia.class)
                 .setParameter("id", id);
         return myQuery.getResultList();
     }
