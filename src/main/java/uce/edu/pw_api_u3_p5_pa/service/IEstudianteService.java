@@ -15,6 +15,9 @@ public interface IEstudianteService {
   public void eliminar(Integer id);
 
   public Estudiante seleccionar(Integer id);
+  public EstudianteTO buscarTO(Integer id);
+
+  
 
   public List<Estudiante> seleccionarTodos(String genero);
 

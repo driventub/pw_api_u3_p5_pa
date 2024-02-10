@@ -1,8 +1,12 @@
 package uce.edu.pw_api_u3_p5_pa.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +44,20 @@ public class EstudianteController {
      * @param nuevo: un valor de prueba
      * @return
      */
-    @GetMapping(path = "{id}", produces = "application/xml")
-    public ResponseEntity<Estudiante> consultarPorId(@PathVariable Integer id) {
+    @GetMapping(path = "{id}", produces = "application/json")
+    public ResponseEntity<EstudianteTO> consultarPorId(@PathVariable Integer id) {
+        EstudianteTO estudianteTO = this.estuService.buscarTO(id);
+        Link link = linkTo(methodOn(EstudianteController.class).seleccionarPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
+        estudianteTO.add(link);
+
+        Link link2 = linkTo(methodOn(EstudianteController.class).consultarPorId(estudianteTO.getId())).withSelfRel();
+        estudianteTO.add(link2);
 
         // 240: recurso Estudiante enconntrado Satisfactoriamente!
-        return ResponseEntity.status(HttpStatus.OK).body(this.estuService.seleccionar(id));
+        return ResponseEntity.status(HttpStatus.OK).body(estudianteTO);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void guardar(@RequestBody Estudiante entity) {
 
         this.estuService.insertar(entity);
@@ -85,6 +95,11 @@ public class EstudianteController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
         List<EstudianteTO> lista = this.estuService.seleccionarTodosTO();
+
+        for (EstudianteTO estudianteTO : lista) {
+            Link link = linkTo(methodOn(EstudianteController.class).seleccionarPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
+            estudianteTO.add(link);
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
