@@ -52,11 +52,11 @@ public class EstudianteRepoImpl implements IEstudianteRepo {
     }
 
     @Override
-    public List<Estudiante> seleccionarTodos(String genero) {
+    public List<Estudiante> seleccionarTodos() {
 
         TypedQuery<Estudiante> query = this.em
-                .createQuery("SELECT a FROM Estudiante a WHERE a.genero = :genero", Estudiante.class)
-                .setParameter("genero", genero);
+                .createQuery("SELECT a FROM Estudiante a ", Estudiante.class);
+
         return query.getResultList();
     }
 

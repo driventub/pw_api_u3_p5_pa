@@ -15,6 +15,6 @@ public interface IEstudianteRepo {
 
     public Estudiante seleccionar(Integer id);
 
-    public List<Estudiante> seleccionarTodos(String genero);
+    public List<Estudiante> seleccionarTodos();
 
 }

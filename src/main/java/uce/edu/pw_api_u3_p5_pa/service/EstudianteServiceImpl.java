@@ -49,14 +49,14 @@ public class EstudianteServiceImpl implements IEstudianteService{
     }
 
     @Override
-    public List<Estudiante> seleccionarTodos(String genero) {
-        return this.repo.seleccionarTodos( genero);
+    public List<Estudiante> seleccionarTodos() {
+        return this.repo.seleccionarTodos();
     }
 
     @Override
     public List<EstudianteTO> seleccionarTodosTO() {
         List<EstudianteTO> listaFinal = new ArrayList<>();
-        List<Estudiante> lista = this.repo.seleccionarTodos("F");
+        List<Estudiante> lista = this.repo.seleccionarTodos();
         for (Estudiante estudiante : lista) {
             listaFinal.add(this.convertir(estudiante));
         }

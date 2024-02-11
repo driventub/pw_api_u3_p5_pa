@@ -21,7 +21,7 @@ public interface IEstudianteService {
   
   public EstudianteTOLigero buscarLigero(Integer id);
 
-  public List<Estudiante> seleccionarTodos(String genero);
+  public List<Estudiante> seleccionarTodos();
 
   public List<EstudianteTO> seleccionarTodosTO();
 
