@@ -4,6 +4,7 @@ import java.util.List;
 
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTO;
+import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTOLigero;
 
 public interface IEstudianteService {
   public void insertar(Estudiante e);
@@ -18,6 +19,7 @@ public interface IEstudianteService {
   public EstudianteTO buscarTO(Integer id);
 
   
+  public EstudianteTOLigero buscarLigero(Integer id);
 
   public List<Estudiante> seleccionarTodos(String genero);
 

@@ -24,6 +24,7 @@ import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 import uce.edu.pw_api_u3_p5_pa.service.IEstudianteService;
 import uce.edu.pw_api_u3_p5_pa.service.IMateriaService;
 import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTO;
+import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTOLigero;
 import uce.edu.pw_api_u3_p5_pa.service.to.MateriaTO;
 
 @RestController
@@ -44,19 +45,7 @@ public class EstudianteController {
      * @param nuevo: un valor de prueba
      * @return
      */
-    @GetMapping(path = "{id}", produces = "application/json")
-    public ResponseEntity<EstudianteTO> consultarPorId(@PathVariable Integer id) {
-        EstudianteTO estudianteTO = this.estuService.buscarTO(id);
-        Link link = linkTo(methodOn(EstudianteController.class).seleccionarPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
-        estudianteTO.add(link);
-
-        Link link2 = linkTo(methodOn(EstudianteController.class).consultarPorId(estudianteTO.getId())).withSelfRel();
-        estudianteTO.add(link2);
-
-        // 240: recurso Estudiante enconntrado Satisfactoriamente!
-        return ResponseEntity.status(HttpStatus.OK).body(estudianteTO);
-    }
-
+  
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void guardar(@RequestBody Estudiante entity) {
 
@@ -91,21 +80,46 @@ public class EstudianteController {
 
     //     return new ResponseEntity<>(this.estuService.seleccionarTodos(genero), headers, 242);
     // }
-
+    
+    
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EstudianteTO>> consultarTodosHateoas() {
         List<EstudianteTO> lista = this.estuService.seleccionarTodosTO();
 
         for (EstudianteTO estudianteTO : lista) {
-            Link link = linkTo(methodOn(EstudianteController.class).seleccionarPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
+            Link link = linkTo(methodOn(EstudianteController.class).consultarLigero(estudianteTO.getId())).withRel("Estudiante Ligero: ");
             estudianteTO.add(link);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
+
+    @GetMapping(path = "/parcial/{id}", produces = "application/json")
+    public ResponseEntity<EstudianteTOLigero> consultarLigero(@PathVariable Integer id) {
+        EstudianteTOLigero estudianteTO = this.estuService.buscarLigero(id);
+        Link link = linkTo(methodOn(EstudianteController.class).consultarPorId(estudianteTO.getId())).withRel("Estudiante Completo: ");
+        estudianteTO.add(link);
+
+       
+        // 240: recurso Estudiante enconntrado Satisfactoriamente!
+        return ResponseEntity.status(HttpStatus.OK).body(estudianteTO);
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    public ResponseEntity<EstudianteTO> consultarPorId(@PathVariable Integer id) {
+        EstudianteTO estudianteTO = this.estuService.buscarTO(id);
+        Link link = linkTo(methodOn(EstudianteController.class).seleccionarMateriasPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
+        estudianteTO.add(link);
+
+       
+        // 240: recurso Estudiante enconntrado Satisfactoriamente!
+        return ResponseEntity.status(HttpStatus.OK).body(estudianteTO);
+    }
+
+
     @GetMapping("/{id}/materias")
-    public ResponseEntity<List<MateriaTO>> seleccionarPorIdEstudiante( @PathVariable Integer id) {
+    public ResponseEntity<List<MateriaTO>> seleccionarMateriasPorIdEstudiante( @PathVariable Integer id) {
         return ResponseEntity.status(200).body(this.materiaService.seleccionarPorIdEstudiante(id));
     }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uce.edu.pw_api_u3_p5_pa.repository.IEstudianteRepo;
 import uce.edu.pw_api_u3_p5_pa.repository.modelo.Estudiante;
 import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTO;
+import uce.edu.pw_api_u3_p5_pa.service.to.EstudianteTOLigero;
 
 @Service
 public class EstudianteServiceImpl implements IEstudianteService{
@@ -70,6 +71,20 @@ public class EstudianteServiceImpl implements IEstudianteService{
         estudianteTO.setFechaNacimiento(e.getFechaNacimiento());
         estudianteTO.setGenero(e.getGenero());
         estudianteTO.setNombre(e.getNombre());
+        estudianteTO.setAfiliadoSeguro(e.getAfiliadoSeguro());
+        estudianteTO.setDomicilio(e.getDomicilio());
+        estudianteTO.setGratuidad(e.getGratuidad());
+        estudianteTO.setNivelEconomico(e.getNivelEconomico());
+        estudianteTO.setNumTelefono(e.getNumTelefono());
+        estudianteTO.setSemestre(e.getSemestre());
+        estudianteTO.setId(e.getId());
+        return estudianteTO;        
+    }
+
+    private EstudianteTOLigero convertirLigero(Estudiante e) {
+        EstudianteTOLigero estudianteTO = new EstudianteTOLigero();
+        estudianteTO.setApellido(e.getApellido());
+        estudianteTO.setNombre(e.getNombre());
         estudianteTO.setId(e.getId());
         return estudianteTO;        
     }
@@ -78,6 +93,12 @@ public class EstudianteServiceImpl implements IEstudianteService{
     public EstudianteTO buscarTO(Integer id) {
         // TODO Auto-generated method stub
         return this.convertir(this.repo.seleccionar(id));
+    }
+
+    @Override
+    public EstudianteTOLigero buscarLigero(Integer id) {
+        
+        return this.convertirLigero(this.repo.seleccionar(id));
     }
     
 }

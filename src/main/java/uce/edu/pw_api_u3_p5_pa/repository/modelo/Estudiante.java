@@ -35,9 +35,71 @@ public class Estudiante {
     @Column(name = "estu_fecha_nacimiento")
     private LocalDateTime fechaNacimiento;
 
+    @Column(name = "estu_semestre")
+    private String semestre;
+
+    @Column(name = "estu_seguro")
+    private Boolean afiliadoSeguro;
+
+    @Column(name = "estu_gratuidad")
+    private Boolean gratuidad;
+
+    @Column(name = "estu_nivel_economico")
+    private String nivelEconomico;
+
+    @Column(name = "estu_telefono")
+    private String numTelefono;
+    
+    @Column(name = "estu_domicilio")
+    private String domicilio;
+
+
+
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL)
     private List<Materia> materias;
 
+    public String getSemestre() {
+        return semestre;
+    }
+    public void setSemestre(String semestre) {
+        this.semestre = semestre;
+    }
+    public Boolean getAfiliadoSeguro() {
+        return afiliadoSeguro;
+    }
+    public void setAfiliadoSeguro(Boolean afiliadoSeguro) {
+        this.afiliadoSeguro = afiliadoSeguro;
+    }
+    public Boolean getGratuidad() {
+        return gratuidad;
+    }
+    public void setGratuidad(Boolean gratuidad) {
+        this.gratuidad = gratuidad;
+    }
+    public String getNivelEconomico() {
+        return nivelEconomico;
+    }
+    public void setNivelEconomico(String nivelEconomico) {
+        this.nivelEconomico = nivelEconomico;
+    }
+    public String getNumTelefono() {
+        return numTelefono;
+    }
+    public void setNumTelefono(String numTelefono) {
+        this.numTelefono = numTelefono;
+    }
+    public String getDomicilio() {
+        return domicilio;
+    }
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
+    }
     // Setter y Getters
     public Integer getId() {
         return id;
