@@ -10,6 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,6 +29,7 @@ import uce.edu.pw_api_u3_p5_pa.service.to.MateriaTO;
 
 @RestController
 @RequestMapping("/estudiantes")
+@CrossOrigin
 public class EstudianteController {
 
     @Autowired
@@ -128,6 +130,7 @@ public class EstudianteController {
         List<EstudianteTO> lista = this.estuService.seleccionarTodosTO();
 
         for (EstudianteTO estudianteTO : lista) {
+            @SuppressWarnings("null")
             Link link = linkTo(methodOn(EstudianteController.class).seleccionarMateriasPorIdEstudiante(estudianteTO.getId())).withRel("Estudiante Ligero: ");
             estudianteTO.add(link);
         }
@@ -139,6 +142,7 @@ public class EstudianteController {
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<EstudianteTO> consultarPorId(@PathVariable Integer id) {
         EstudianteTO estudianteTO = this.estuService.buscarTO(id);
+        @SuppressWarnings("null")
         Link link = linkTo(methodOn(EstudianteController.class).seleccionarMateriasPorIdEstudiante(estudianteTO.getId())).withRel("Lista de Materias: ");
         estudianteTO.add(link);
 
